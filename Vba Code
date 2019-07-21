@@ -1,0 +1,33 @@
+Sub ArrowRight1_Click()
+'Message Box untuk konfirmasi sebelum melakukan suatu aksi
+'Kekurangannya anda harus memilih baris mana yang ingin diproses dengan milih pada awal baris
+    Pesan = MsgBox("Apakah anda ingin memindahkan data ini ?", vbYesNoCancel, "Konfirmasi")
+    Select Case Pesan
+'Jika memilih yes    
+    Case vbYes
+'Memilih pada sheet yg aktif dan sampai kolom terakhir pada row yang dipilih
+    Sheet1.Select
+'Memilih cell yang dipilih"
+    ActiveCell.Select
+'Melakukan blok data dari awal hingga akhir data pada baris tersebut
+    Range(Selection, Selection.End(xlToRight)).Select
+'Menyalin data ke sheet2 pada baris terakhir
+    Selection.Copy
+'Berpindah pada sheet2
+    Sheet2.Select
+'Melakukan pedenteksian baris yang kosong pada awal baris
+    If Range("A1").Offset(1, 0).Value = "" Then
+'Jika awal baris kosong akan dipilih untuk tempat paste/tempel data
+        Range("A1").Offset(1, 0).Select
+    Else
+'Jika baris pertama tidak kosong maka akan memilih baris terakhir dari data yang ada pada sheet2
+        Range("A1").End(xlDown).Offset(1, 0).Select
+    End If
+'Melakukan paste/tempel data
+        ActiveSheet.Paste
+'Menghapus data pada baris yang sudah dipindah
+    Sheet1.Select
+    Selection.EntireRow.Delete
+    Case vbNo
+    End Select
+End Sub
